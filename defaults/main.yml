@@ -1,0 +1,24 @@
+---
+# defaults file for phpmyadmin
+phpmyadmin_web_dir: '/var/www/html/phpmyadmin'
+phpmyadmin_version: "4.7.9"
+phpmyadmin_web_user: "apache"
+phpmyadmin_web_group: "apache"
+phpmyadmin_servers:
+  # You can duplicate this array entry if you have several phpmyadmin servers to configure
+  - verbose: "localhost"
+    host: "localhost"
+    port: "3306"
+    socket: ""
+    connect_type: "tcp"
+    auth_type: "cookie"
+    user: "root"
+    password: ""
+    ssl: false
+    AllowNoPassword: false
+
+phpmyadmin_blowfish_secret: "lkjdf89932hfjhsasdf03laskjw123djkjlsjdf91223sjdj3h99fhj"
+phpmyadmin_default_lang: "en-utf8"
+phpmyadmin_server_default: 1
+phpmyadmin_upload_dir: ""
+phpmyadmin_save_dir: ""

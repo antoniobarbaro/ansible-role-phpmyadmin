@@ -1,0 +1,28 @@
+<?php
+
+/* Servers configuration */
+{% set i = 0 %}
+
+{% for server in phpmyadmin_servers %}
+/* Server: Localhost "{{ server.verbose }}" */
+{% set i = i + 1 %}
+$cfg["Servers"][{{ i }}]["verbose"] = "{{ server.verbose }}";
+$cfg["Servers"][{{ i }}]["host"] = "{{ server.host }}";
+$cfg["Servers"][{{ i }}]["port"] = "{{ server.port }}";
+$cfg["Servers"][{{ i }}]["socket"] = "{{ server.socket }}";
+$cfg["Servers"][{{ i }}]["connect_type"] = "{{ server.connect_type }}";
+$cfg["Servers"][{{ i }}]["auth_type"] = "{{ server.auth_type }}";
+$cfg["Servers"][{{ i }}]["user"] = "{{ server.user }}";
+$cfg["Servers"][{{ i }}]["password"] = "{{ server.password }}";
+$cfg["Servers"][{{ i }}]["ssl"] = {{ server.ssl }};
+$cfg["Servers"][{{ i }}]["AllowNoPassword"] = {{ server.AllowNoPassword }};
+
+{% endfor %}
+/* End of servers configuration */
+
+$cfg["blowfish_secret"] = "{{ phpmyadmin_blowfish_secret }}";
+$cfg["DefaultLang"] = "{{ phpmyadmin_default_lang }}";
+$cfg["ServerDefault"] = {{ phpmyadmin_server_default }};
+$cfg["UploadDir"] = "{{ phpmyadmin_upload_dir }}";
+$cfg["SaveDir"] = "{{ phpmyadmin_save_dir }}";
+?>

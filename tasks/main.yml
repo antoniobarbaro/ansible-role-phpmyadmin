@@ -1,0 +1,47 @@
+---
+# tasks file for phpmyadmin
+#- name: Install epel repo
+#  yum: 
+#    state: present
+#    name: epel-release
+
+#- name: Install phpmyadmin
+#  yum: 
+#    state: present
+#    name: phpmyadmin
+
+- name: remove phpmyadmin directory
+  file: 
+    path: "{{ phpmyadmin_web_dir }}"
+    state: absent
+
+- name: PhpMyAdmin Download
+  get_url:
+    url="https://files.phpmyadmin.net/phpMyAdmin/{{ phpmyadmin_version }}/phpMyAdmin-{{ phpmyadmin_version }}-all-languages.tar.gz"
+    dest=/tmp/
+    validate_certs=no
+    timeout=90
+
+- name: Uncompressing PhpMyAdmin
+  unarchive:
+    src=/tmp/phpMyAdmin-{{ phpmyadmin_version }}-all-languages.tar.gz
+    dest=/tmp/
+    owner={{ phpmyadmin_web_user }}
+    group={{ phpmyadmin_web_group }}
+    copy=no
+
+- name: PhpMyAdmin deployment in web dir
+  command: "mv /tmp/phpMyAdmin-{{ phpmyadmin_version }}-all-languages {{ phpmyadmin_web_dir }}"
+
+- name: PhpMyAdmin configuration
+  template:
+    src=config.inc.php.j2
+    dest="{{ phpmyadmin_web_dir }}/config.inc.php"
+    owner={{ phpmyadmin_web_user }}
+    group={{ phpmyadmin_web_group }}
+    mode=0740
+
+#- name: PhpMyAdmin downloaded archive cleanup
+#  file:
+#    path=/home/{{ ansible_user }}/phpMyAdmin-{{ PMA_VERSION }}-all-languages.tar.gz
+#    state=absent
