@@ -38,7 +38,7 @@
     copy=no
 
 - name: PhpMyAdmin deployment in web dir
-  command: "mv /tmp/phpMyAdmin-{{ phpmyadmin_version }}-all-languages {{ phpmyadmin_web_dir }}"
+  command: "rsync -au /tmp/phpMyAdmin-{{ phpmyadmin_version }}-all-languages/ {{ phpmyadmin_web_dir }}/"
 
 - name: PhpMyAdmin configuration
   template:
@@ -48,7 +48,12 @@
     group={{ phpmyadmin_web_group }}
     mode=0740
 
-#- name: PhpMyAdmin downloaded archive cleanup
-#  file:
-#    path=/home/{{ ansible_user }}/phpMyAdmin-{{ PMA_VERSION }}-all-languages.tar.gz
-#    state=absent
+- name: remove tar file
+  file:
+    path="/tmp/phpMyAdmin-{{ phpmyadmin_version }}-all-languages.tar.gz"
+    state=absent
+
+- name: remove temp archive
+  file:
+    path="/tmp/phpMyAdmin-{{ phpmyadmin_version }}-all-languages"
+    state=absent    
